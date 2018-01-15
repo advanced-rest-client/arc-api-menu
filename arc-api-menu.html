@@ -1,0 +1,157 @@
+<!--
+@license
+Copyright 2016 The Advanced REST client authors <arc@mulesoft.com>
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License at
+http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+-->
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-tabs/paper-tabs.html">
+<link rel="import" href="../paper-tabs/paper-tab.html">
+<link rel="import" href="../iron-pages/iron-pages.html">
+<link rel="import" href="../openable-panel-behavior/openable-panel-behavior.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../projects-menu/projects-menu.html">
+<link rel="import" href="../rest-api-menu/rest-api-menu.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<!--
+ARC menu for APIs includes ARC projects menu and the REST APIs menu.
+
+The REST APIs menu is disabled by default. To enable it set `rest-api`
+attribute on the element. Once set it displays tabs view to switch between ARC
+projects and REST APIs lists.
+
+### Example
+```
+<arc-api-menu rest-api></arc-api-menu>
+```
+
+### Styling
+`<arc-api-menu>` provides the following custom properties and mixins for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--arc-api-menu` | Mixin applied to the element | `{}`
+`--arc-api-menu-actions-container` | Mixin applied to actions container at the bottom of REST APIs menu | `{}`
+
+### Sizing
+
+The element needs to be sized be setting a height. It uses vertical flex layout
+so if the height is not set then it renders as a `0px` height element when the list
+is empty.
+
+@group UI Elements
+@element arc-api-menu
+@demo demo/index.html
+-->
+<dom-module id="arc-api-menu">
+  <template>
+    <style>
+    :host {
+      @apply --layout-vertical;
+      @apply --arc-api-menu;
+    }
+
+    iron-pages {
+      @apply --layout-flex;
+      overflow: hidden;
+    }
+
+    projects-menu,
+    rest-api-menu {
+      overflow: auto;
+      height: 100%;
+    }
+
+    .actions {
+      @apply --arc-api-menu-actions-container;
+    }
+    </style>
+    <template is="dom-if" if="[[restApi]]">
+      <paper-tabs selected="{{selected}}">
+        <paper-tab>Projects</paper-tab>
+        <paper-tab>Rest APIs</paper-tab>
+      </paper-tabs>
+    </template>
+    <iron-pages selected="[[selected]]" class="tabs">
+      <projects-menu attr-for-opened="opened" opened$="[[projectsOpened]]"></projects-menu>
+      <rest-api-menu attr-for-opened="opened" opened$="[[restApisOpened]]"></rest-api-menu>
+    </iron-pages>
+    <template is="dom-if" if="[[restApisOpened]]">
+      <div class="actions">
+        <paper-button on-tap="openApisList">REST APIs list</paper-button>
+      </div>
+    </template>
+  </template>
+  <script>
+  Polymer({
+    is: 'arc-api-menu',
+
+    behaviors: [
+      ArcBehaviors.OpenablePanelBehavior
+    ],
+
+    properties: {
+      // If set then `REST APIs` menu entry is rendered
+      restApi: Boolean,
+      // Currently selected menu tab. Only if `restApi` is set.
+      selected: {
+        type: Number,
+        value: 0
+      },
+      // Computed value, true if projects menu is currently opened
+      projectsOpened: Boolean,
+      // Computed value, true if REST APIs menu is currently opened
+      restApisOpened: Boolean
+    },
+
+    observers: [
+      '_computeOpenedState(_isOpened, selected)'
+    ],
+
+    _computeOpenedState: function(opened, selected) {
+      var projects = false;
+      var restApis = false;
+      if (opened) {
+        switch (selected) {
+          case 0: projects = true; break;
+          case 1: restApis = true; break;
+        }
+      }
+      if (this.projectsOpened !== projects) {
+        this.projectsOpened = projects;
+      }
+      if (this.restApisOpened !== restApis) {
+        this.restApisOpened = restApis;
+      }
+      if (opened && this.restApi) {
+        var tabs = this.$$('paper-tabs');
+        if (tabs) {
+          tabs.notifyResize();
+        }
+      }
+    },
+    /**
+     * Dispatches `navigate` custom event to open `rest-projects` screen.
+     */
+    openApisList: function() {
+      this.fire('navigate', {
+        base: 'rest-projects'
+      });
+    }
+
+    /**
+     * Dispatched when the user requested to open rest-projects screen.
+     *
+     * @event navigate
+     * @param {String} base Currently only `rest-projects`
+     */
+  });
+  </script>
+</dom-module>
