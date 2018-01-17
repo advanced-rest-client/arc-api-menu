@@ -32,4 +32,4 @@ is empty.
 ### Events
 | Name | Description | Params |
 | --- | --- | --- |
-| navigate | Dispatched when the user requested to open rest-projects screen. | base **String** - Currently only `rest-projects` |
+| navigate | Dispatched when the user requested to open rest-projects or exchange-search screen. | base **String** - Either `rest-projects` or `exchange-search` |

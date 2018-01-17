@@ -86,6 +86,7 @@ is empty.
     <template is="dom-if" if="[[restApisOpened]]">
       <div class="actions">
         <paper-button on-tap="openApisList">REST APIs list</paper-button>
+        <paper-button on-tap="openExplore">Explore APIs</paper-button>
       </div>
     </template>
   </template>
@@ -144,13 +145,20 @@ is empty.
       this.fire('navigate', {
         base: 'rest-projects'
       });
+    },
+    // Dispatches `navigate` custom event to open `exchange-search` screen.
+    openExplore: function() {
+      this.fire('navigate', {
+        base: 'exchange-search'
+      });
     }
 
     /**
-     * Dispatched when the user requested to open rest-projects screen.
+     * Dispatched when the user requested to open rest-projects or exchange-search
+     * screen.
      *
      * @event navigate
-     * @param {String} base Currently only `rest-projects`
+     * @param {String} base Either `rest-projects` or `exchange-search`
      */
   });
   </script>
