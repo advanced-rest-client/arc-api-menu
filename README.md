@@ -20,6 +20,10 @@ Custom property | Description | Default
 ----------------|-------------|----------
 `--arc-api-menu` | Mixin applied to the element | `{}`
 `--arc-api-menu-actions-container` | Mixin applied to actions container at the bottom of REST APIs menu | `{}`
+`--arc-menu-bottom-actions` | Mixin applied to the bottom pane with additional actions. | `{}`
+`--arc-menu-bottom-actions-button` | Mixin applied to the buttons in bottom action pane. | `{}`
+`--arc-menu-bottom-actions-button-hover` | Mixin applied to the buttons in bottom action pane when hovering. | `{}`
+`--arc-menu-tabs-color` | Color of the papaer tabs | ``
 
 ### Sizing
 

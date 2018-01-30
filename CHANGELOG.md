@@ -1,3 +1,13 @@
+<a name="0.1.4"></a>
+## [0.1.4](https://github.com/advanced-rest-client/arc-api-menu/compare/0.1.3...0.1.4) (2018-01-30)
+
+
+### Update
+
+* Added styling options. ([97d10869bc2ad154e422a75194c25d34ac29bf2d](https://github.com/advanced-rest-client/arc-api-menu/commit/97d10869bc2ad154e422a75194c25d34ac29bf2d))
+
+
+
 <a name="0.1.3"></a>
 ## [0.1.3](https://github.com/advanced-rest-client/arc-api-menu/compare/0.1.2...0.1.3) (2018-01-17)
 
